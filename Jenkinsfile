@@ -22,6 +22,9 @@ podTemplate(label: label, containers: [
                  sh "git secrets --scan"
                  sh "git log -p | scanrepo"
             }
+            stage ("sonar") {
+                sh "npm run sonar-scanner"
+            }
 
             stage ("unit test") {
                 sh "npm run test"

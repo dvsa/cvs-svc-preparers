@@ -1,15 +1,12 @@
 
 'use strict'
-const PreparersDAOMock = require('../models/PreparersDAOMock')
+const PreparersDAO = require('../models/PreparersDAO')
 const PreparersService = require('../services/PreparersService')
 const HTTPResponse = require('../models/HTTPResponse')
 
 const getPreparers = () => {
-  const preparersDAOMock = new PreparersDAOMock()
-  preparersDAOMock.preparersRecordsMock = require('../resources/mock-preparers.json')
-  preparersDAOMock.numberOfRecords = preparersDAOMock.preparersRecordsMock.length
-  preparersDAOMock.numberOfScannedRecords = preparersDAOMock.preparersRecordsMock.length
-  const preparersService = new PreparersService(preparersDAOMock)
+  const preparersDAO = new PreparersDAO()
+  const preparersService = new PreparersService(preparersDAO)
 
   return preparersService.getPreparersList()
     .then((data) => {

@@ -1,60 +1,52 @@
-service: 
-  name: cvs-preparers-mock
+service:
+  name: cvs-svc-preparers
 
 openapi: 3.0.0
 
 plugins:
+  - serverless-dynamodb-local
   - serverless-offline
-  - serverless-openapi-documentation
 
 provider:
   name: aws
   runtime: nodejs8.10
 
-custom:
-  serverless-offline:
-    port: 3003
-  documentation:
-    version: '1'
-    title: 'Get Preparers List API'
-    description: 'This is the API spec for the preparers microservice. Currently this service only retrieves all the preparers.'
-    models: 
-      - name: "preparers"
-        description: "Get preparers successful response"
-        contentType: "application/json"
-        schema: 
-          type: "array"
-          items: 
-            type: "object"
-            properties: 
-              preparerId:
-                type: "number"
-              preparerName":
-                type: "string"
-
 functions:
   getPreparers:
     handler: src/handler.handler
     events:
-      - http:
-          path: "preparers"
-          method: "get"
-          documentation:
-            summary: "Get preparers List"
-            description: "Returns all existing preparers from the database"
-            methodResponses:
-              - statusCode: 200
-                responseBody:
-                  description: "List of preparers"
-                responseModels: 
-                  "application/json": "preparers"
-              - statusCode: 500
-                responseBody:
-                  description: "The error trace"
-                responseModels:
-                  content:
-                    application/json:
-                      schema:
-                        type: array
-                        items:
-                          type: string
+    - http:
+        path: "preparers"
+        method: "get"
+
+custom:
+  serverless-offline:
+    port: 3003
+  dynamodb:
+    start:
+      port: 8006
+      inMemory: true
+      migrate: true
+      seed: true
+      noStart: false
+    seed:
+      preparers:
+        sources:
+        - table: cvs-local-preparers
+          sources: [./tests/resources/preparers.json]
+
+resources:
+  Resources:
+    Users:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: cvs-local-preparers
+        AttributeDefinitions:
+        - AttributeName: preparerId
+          AttributeType: S
+        KeySchema:
+        - AttributeName: preparerId
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

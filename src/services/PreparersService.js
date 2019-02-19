@@ -30,6 +30,32 @@ class PreparersService {
         throw new HTTPError(error.statusCode, error.body)
       })
   }
+
+  insertPreparerList (preparerItems) {
+    return this.preparersDAO.createMultiple(preparerItems)
+      .then(data => {
+        if (data.UnprocessedItems) { return data.UnprocessedItems }
+      })
+      .catch((error) => {
+        if (error) {
+          console.error(error)
+          throw new HTTPError(500, 'Internal Server Error')
+        }
+      })
+  }
+
+  deletePreparerList (preparerItemKeys) {
+    return this.preparersDAO.deleteMultiple(preparerItemKeys)
+      .then((data) => {
+        if (data.UnprocessedItems) { return data.UnprocessedItems }
+      })
+      .catch((error) => {
+        if (error) {
+          console.error(error)
+          throw new HTTPError(500, 'Internal ServerError')
+        }
+      })
+  }
 }
 
 module.exports = PreparersService

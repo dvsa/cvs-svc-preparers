@@ -1,4 +1,4 @@
-# cvs-svc-preparers-mock
+# cvs-svc-preparers
 
 #### Run AWS Lambda node functions locally with a mock API Gateway
 - `npm install`
@@ -28,13 +28,33 @@ https://github.com/UKHomeOffice/repo-security-scanner
 
 These will be run as part of prepush so please make sure you set up the git hook above so you don't accidentally introduce any new security vulnerabilities.
 
+### DynamoDB
+If you want the database to be populated with mock data on start, in your `serverless.yml` file, you need to set `seed` to `true`. You can find this setting under `custom > dynamodb > start`.
+
+By default, the `noStart` setting under `custom > dynamodb > start` is true. That means the DynamoDB instance will not be started automatically. To start the instance automatically on `npm run start`, you have to set this value to `false`.
+
+If you choose to run the DynamoDB instance separately, you can send the seed command with the following command:
+
+```sls dynamodb seed --seed=preparers```
+
+Under `custom > dynamodb > seed` you can define new seed operations with the following config:
+```
+custom:
+    dynamodb:
+        seed:
+          [SEED NAME HERE]:
+            sources:
+            - table: [TABLE TO SEED]
+              sources: [./path/to/resource.json]
+```
+
+
 ### Testing
 In order to test, you need to run the following:
 - `npm run test` for unit tests
 - `npm run test-i` for integration tests
-- `npm run tests` to run both
 
 
 ### Environmental variables
 
-- The `ENV` environment variable indicates in which environment is this application running. Use `ENV=local` for local deployment. This variable is required when starting the application or running tests.
+- The `BRANCH` environment variable indicates in which environment is this application running. Use `BRANCH=local` for local deployment. This variable is required when starting the application or running tests.

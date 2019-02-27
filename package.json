@@ -8,7 +8,7 @@
     "start:test": "npm run eslint && node_modules/gulp/bin/gulp.js start-serverless",
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "test": "node_modules/.bin/mocha tests/**/*.unitTest.js",
-    "test-i": "node_modules/.bin/mocha tests/**/*.intTest.js",
+    "test-i": "BRANCH=local node_modules/.bin/mocha tests/**/*.intTest.js",
     "tests": "npm run test && sls offline start > /dev/null 2>&1 & sleep 4 && npm run test-i && kill %1",
     "prepush": "npm test && npm run eslint",
     "predeploy": "npm install && npm run prepush",

@@ -8,9 +8,9 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "start": "npm run tslint && BRANCH=local ./node_modules/serverless/bin/serverless offline start",
-    "start:test": "npm run tslint && node_modules/gulp/bin/gulp.js start-serverless",
-    "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
+    "start": "BRANCH=local serverless offline start",
+    "start:test": "gulp start-serverless",
+    "end:test": "gulp kill-serverless",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --coverage",
@@ -22,7 +22,8 @@
     "tslint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
     "sonar-scanner": "npm run tslint && npm run coverage && sonar-scanner",
     "coverage": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.*Test.ts\" --coverage",
-    "audit-dep": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "audit:check": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
+    "audit-dep": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
     "tools-setup": "sls dynamodb migrate && BRANCH=local node_modules/gulp/bin/gulp.js start-serverless && sls dynamodb seed --seed=preparers"
   },
@@ -67,17 +68,17 @@
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^3.6.0",
-    "serverless": "^1.56.1",
+    "serverless": "^2.19.0",
     "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^5.12.0",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-plugin-typescript": "^1.1.9",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^26.4.4",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-jsdoc-rules": "^0.2.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "aws-sdk": "^2.562.0",

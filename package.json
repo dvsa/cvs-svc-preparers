@@ -104,8 +104,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run security-checks && npm run tslint && npm run build",
-      "pre-push": "npm run prepush"
+      "pre-commit": "npm run security-checks && npm run tslint",
+      "pre-push": "npm audit && npm run build && npm run prepush"
     }
   }
 }

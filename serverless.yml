@@ -25,9 +25,9 @@ functions:
   getPreparers:
     handler: src/handler.handler
     events:
-    - http:
-        path: "preparers"
-        method: "get"
+      - http:
+          path: "preparers"
+          method: "get"
 
 custom:
   serverless-offline:
@@ -42,8 +42,8 @@ custom:
     seed:
       preparers:
         sources:
-        - table: cvs-local-preparers
-          sources: [./tests/resources/preparers.json]
+          - table: cvs-local-preparers
+            sources: [./tests/resources/preparers.json]
     stages:
       - dev
       - test
@@ -55,11 +55,11 @@ resources:
       Properties:
         TableName: cvs-local-preparers
         AttributeDefinitions:
-        - AttributeName: preparerId
-          AttributeType: S
+          - AttributeName: preparerId
+            AttributeType: S
         KeySchema:
-        - AttributeName: preparerId
-          KeyType: HASH
+          - AttributeName: preparerId
+            KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

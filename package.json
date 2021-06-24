@@ -9,23 +9,22 @@
   },
   "scripts": {
     "start": "BRANCH=local serverless offline start",
-    "start:test": "gulp start-serverless",
-    "end:test": "gulp kill-serverless",
+    "setup": "echo 'setting up repo'... && ts-node tests/scripts/installDynamoDB.ts && echo 'repo setup done ✅'",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
-    "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\"",
-    "tests": "npm run test && sls offline start > /dev/null 2>&1 & sleep 4 && npm run test-i && kill %1",
-    "prepush": "npm run coverage",
+    "format": "prettier --write .",
+    "coverage": "npm t -- --runInBand --coverage",
+    "test-i": "npm run test:integration -- --globalSetup='./tests/scripts/setUp.ts' --globalTeardown='./tests/scripts/tearDown.ts'",
+    "test:integration": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
+    "prepush": "npm run coverage && npm run build && npm run test-i",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
-    "tslint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
-    "sonar-scanner": "npm run tslint && npm run coverage && sonar-scanner",
-    "coverage": "npm t -- --runInBand --coverage",
-    "audit:check": "npm audit --json | node_modules/.bin/audit-filter --nsp-config=.nsprc --audit=-",
-    "audit-dep": "npm audit",
+    "lint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
+    "sonar-scanner": "npm run coverage && sonar-scanner",
+    "audit": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "sls dynamodb migrate && BRANCH=local node_modules/gulp/bin/gulp.js start-serverless && sls dynamodb seed --seed=preparers"
+    "tools-setup": "npm run setup"
   },
   "author": "",
   "license": "MIT",
@@ -54,7 +53,7 @@
     "@babel/preset-typescript": "^7.6.0",
     "@types/jest": "^24.0.21",
     "@types/jest-plugin-context": "^2.9.2",
-    "@types/lambda-tester": "^3.5.1",
+    "@types/lambda-tester": "^3.6.1",
     "@types/node": "^10.17.3",
     "@types/request": "^2.48.3",
     "@types/sinon": "^7.5.0",
@@ -62,12 +61,12 @@
     "audit-filter": "^0.5.0",
     "aws-lambda-mock-context": "^3.2.1",
     "babel-jest": "^24.8.0",
-    "gulp": "^4.0.2",
     "husky": "^3.0.9",
     "jest": "^24.8.0",
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
-    "lambda-tester": "^3.6.0",
+    "lambda-tester": "^4.0.1",
+    "prettier": "2.3.2",
     "serverless": "^2.45.2",
     "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^5.12.0",
@@ -104,8 +103,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run security-checks && npm run tslint",
-      "pre-push": "npm audit && npm run build && npm run prepush"
+      "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
+      "pre-push": "npm run prepush"
     }
   }
 }

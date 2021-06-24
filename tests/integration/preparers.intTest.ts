@@ -1,48 +1,49 @@
 /* global describe context it before beforeEach after afterEach */
-import supertest from "supertest";
-import {emptyDatabase, populateDatabase} from "../util/dbOperations";
-import {HTTPRESPONSE} from "../../src/assets/Enums";
-import preparersData from "../resources/preparers.json";
+import supertest from 'supertest';
+import { emptyDatabase, populateDatabase } from '../util/dbOperations';
+import { HTTPRESPONSE } from '../../src/assets/Enums';
+import preparersData from '../resources/preparers.json';
 
-const url = "http://localhost:3003/";
+const url = 'http://localhost:3003/';
 const request = supertest(url);
 
-describe("preparers", () => {
+describe('preparers', () => {
   beforeAll(async () => {
-      await emptyDatabase();
+    await emptyDatabase();
   });
 
   beforeEach(async () => {
-      await populateDatabase();
+    await populateDatabase();
   });
 
   afterEach(async () => {
-      await emptyDatabase();
+    await emptyDatabase();
   });
 
   afterAll(async () => {
-      await populateDatabase();
+    await populateDatabase();
   });
 
-  describe("getPreparers", () => {
-    context("when database is populated", () => {
-      it("should return all preparers in the database", (done) => {
+  describe('getPreparers', () => {
+    context('when database is populated', () => {
+      it('should return all preparers in the database', (done) => {
         const expectedResponse = preparersData;
 
-        request.get("preparers")
-          .end((err, res: any) => {
-            if (err) { expect.assertions(0); }
-            expect(res.statusCode).toEqual(200);
-            expect(res.headers["access-control-allow-origin"]).toEqual("*");
-            expect(res.headers["access-control-allow-credentials"]).toEqual("true");
-            expect(res.body.length).toEqual(expectedResponse.length);
-            done();
-          });
+        request.get('preparers').end((err, res: any) => {
+          if (err) {
+            expect.assertions(0);
+          }
+          expect(res.statusCode).toEqual(200);
+          expect(res.headers['access-control-allow-origin']).toEqual('*');
+          expect(res.headers['access-control-allow-credentials']).toEqual('true');
+          expect(res.body.length).toEqual(expectedResponse.length);
+          done();
+        });
       });
     });
   });
 
-  describe("when database is empty", () => {
+  describe('when database is empty', () => {
     beforeEach(async () => {
       await emptyDatabase();
     });
@@ -54,8 +55,8 @@ describe("preparers", () => {
      * Workaround below asserts that correct errors are thrown, even if not caught in usual way.
      * The logic of test is strictly not correct but not an issue when this is deployed to AWS.
      */
-    it("should return error code 404", async () => {
-      const res = await request.get("preparers");
+    it('should return error code 404', async () => {
+      const res = await request.get('preparers');
       expect(res.clientError).toBeTruthy();
       expect(res.notFound).toBeTruthy();
       expect(res.ok).toBeFalsy();

@@ -15,11 +15,12 @@
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
     "format": "prettier --write .",
     "coverage": "npm t -- --runInBand --coverage",
-    "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --globalSetup='./tests/scripts/setUp.ts' --globalTeardown='./tests/scripts/tearDown.ts'",
+    "test-i": "npm run test:integration -- --globalSetup='./tests/scripts/setUp.ts' --globalTeardown='./tests/scripts/tearDown.ts'",
+    "test:integration": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
     "prepush": "npm run coverage && npm run build && npm run test-i",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
-    "tslint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
+    "lint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
     "sonar-scanner": "npm run coverage && sonar-scanner",
     "audit": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
@@ -52,7 +53,7 @@
     "@babel/preset-typescript": "^7.6.0",
     "@types/jest": "^24.0.21",
     "@types/jest-plugin-context": "^2.9.2",
-    "@types/lambda-tester": "^3.5.1",
+    "@types/lambda-tester": "^3.6.1",
     "@types/node": "^10.17.3",
     "@types/request": "^2.48.3",
     "@types/sinon": "^7.5.0",
@@ -64,7 +65,7 @@
     "jest": "^24.8.0",
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
-    "lambda-tester": "^3.6.0",
+    "lambda-tester": "^4.0.1",
     "prettier": "2.3.2",
     "serverless": "^2.45.2",
     "serverless-dynamodb-local": "^0.2.38",
@@ -102,7 +103,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run security-checks && npm run audit && npm run tslint && npm run format",
+      "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
       "pre-push": "npm run prepush"
     }
   }

@@ -34,7 +34,7 @@ Data is used is made available to VTA for searching a vehicle.
 
 [All in one view](https://wiki.dvsacloud.uk/pages/viewpage.action?pageId=79254695)
 
-### Defect microservice
+### Preparers microservice
 
 More information about technical designs can be found under the [Preparers Microservice](https://wiki.dvsacloud.uk/display/HVT/Preparers+Microservice) section.
 

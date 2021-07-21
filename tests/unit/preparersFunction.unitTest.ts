@@ -1,13 +1,13 @@
-import GetPreparersFunction from "../../src/functions/getPreparers";
-import PreparersService from "../../src/services/PreparersService";
-import HTTPError from "../../src/models/HTTPError";
+import GetPreparersFunction from '../../src/functions/getPreparers';
+import PreparersService from '../../src/services/PreparersService';
+import HTTPError from '../../src/models/HTTPError';
 
-jest.mock("../../src/services/PreparersService");
+jest.mock('../../src/services/PreparersService');
 
-describe("getPreparers function", () => {
-  context("on successful service call", () => {
-    it("should return data from service", async () => {
-      const retData = {testData: true};
+describe('getPreparers function', () => {
+  context('on successful service call', () => {
+    it('should return data from service', async () => {
+      const retData = { testData: true };
       PreparersService.prototype.getPreparersList = jest.fn().mockImplementation(() => {
         return Promise.resolve(retData);
       });
@@ -18,15 +18,15 @@ describe("getPreparers function", () => {
     });
   });
 
-  context("on error from service call", () => {
-    it("should return data from service", async () => {
-      const retData = {testData: true};
+  context('on error from service call', () => {
+    it('should return data from service', async () => {
+      const retData = { testData: true };
       PreparersService.prototype.getPreparersList = jest.fn().mockImplementation(() => {
-        return Promise.reject(new HTTPError(418, "It broke"));
+        return Promise.reject(new HTTPError(418, 'It broke'));
       });
 
       const res = await GetPreparersFunction();
-      expect(res.body).toEqual(JSON.stringify("It broke"));
+      expect(res.body).toEqual(JSON.stringify('It broke'));
       expect(res.statusCode).toEqual(418);
     });
   });

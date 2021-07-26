@@ -4,6 +4,11 @@ dynamodb:
       region: localhost
       endpoint: http://localhost:8006
     table: cvs-local-preparers
+  localstack:
+    params:
+      region: eu-west-1
+      endpoint: http://${LOCALSTACK_HOSTNAME}:4566
+    table: cvs-localstack-preparers
   local-global:
     params:
       region: localhost

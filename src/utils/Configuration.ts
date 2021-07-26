@@ -85,6 +85,9 @@ class Configuration {
             case "local-global":
                 env = "local-global";
                 break;
+            case "localstack":
+              env = "localstack";
+              break;
             default:
                 env = "remote";
         }

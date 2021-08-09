@@ -1,0 +1,80 @@
+openapi: 3.0.0
+
+info:
+  description: 'This is the API spec for the preparers microservice. Currently this service only retrieves all the preparers.'
+  version: 1.0.0
+  title: preparers Microservice
+  termsOfService: ''
+  contact:
+    email: acozianu@deloittece.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: preparers
+    description: Endpoints related to preparers
+    externalDocs:
+      description: Find out more
+      url: 'https://link.com'
+
+paths:
+
+  /preparers:
+    
+    get:
+      tags:
+        - preparers
+      summary: Return preparers
+      description: Return preparers
+      operationId: getPreparers
+      responses:
+        '200':
+          description: All preparers returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preparers'
+        '401':
+          description: Not authenticated
+        '403':
+          description: Unauthorised Access
+        '404':
+          description: Preparers not found
+  
+components:
+  
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+
+  schemas:
+
+    preparers:
+      type: array
+      items: 
+        type: object
+        properties:
+          preparerId:
+            type: string
+            nullable: false
+          preparerName:
+            nullable: false
+            type: string
+
+# Security will need to updated once the security scheme is confirmed
+security:
+  - ApiKeyAuth: []
+  - OAuth2:
+      - read
+      - write
+
+servers:
+  - url: 'https://url/api/v1'

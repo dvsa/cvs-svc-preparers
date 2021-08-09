@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "86382978-ff25-4af8-a03f-0d4f5962f67e",
+		"name": "preparers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get preparers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiIxMWJlOGM0NC0yMmY1LTQzYmYtYjliYi01MDQ2N2EyNmNmYTciLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vNmM0NDhkOTAtNGNhMS00Y2FmLWFiNTktMGEyYWE2N2Q3ODAxL3YyLjAiLCJpYXQiOjE2Mjg1MTg1MjYsIm5iZiI6MTYyODUxODUyNiwiZXhwIjoxNjI4NTIwMDI2LCJhaW8iOiJBVFFBeS84VEFBQUFrZ1hxdGF2UmhZcFFCSFNYd0h3V2RDck1pUXZpVzJEOTRLTllzeDlRNi9NTE0vUGROMGZPbDFqWTEzSGpXZlpOIiwiZW1haWwiOiJjdnMuYXV0b21hdGlvbjFAZHZzYWdvdi5vbm1pY3Jvc29mdC5jb20iLCJuYW1lIjoiY3ZzLmF1dG9tYXRpb24xQGR2c2Fnb3Yub25taWNyb3NvZnQuY29tIiwib2lkIjoiMDU2NzYyZWYtYzYwYy00ZGFmLTlhNDUtYjg4ZmVhZjc2ZmEyIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiY3ZzLmF1dG9tYXRpb24xQGR2c2Fnb3Yub25taWNyb3NvZnQuY29tIiwicmgiOiIwLkFVZ0FrSTFFYktGTXIweXJXUW9xcG4xNEFVU012aEgxSXI5RHVidFFSbm9tejZkSUFEOC4iLCJyb2xlcyI6WyJDVlNGdWxsQWNjZXNzIl0sInN1YiI6IllOcWl5YklwZkNYOXJES3B5bjVfajJ1d1I0d1FwN3dabFA1NW9zMDFWMG8iLCJ0aWQiOiI2YzQ0OGQ5MC00Y2ExLTRjYWYtYWI1OS0wYTJhYTY3ZDc4MDEiLCJ1dGkiOiJBSVZHVTVqZnZrS0xsVUpOUWMzeUFRIiwidmVyIjoiMi4wIn0.GaC0zpFIAVac-AkvDo6szvt3t0w0GOVmkn8ekuT1AKOv8sRC3XzE-3yeoViDvBGYJgvsGY7LE7gJQGkzOCnrlG9k8tDvAlLpmpZB7hpJj20Gsurn7v1a97ai_lkz9PwN7GRzIfs189mI7kc8zjhe0nodftbTCV0KpZwJ4od3furiV2gWDkwD8h5DNNnKoER9dmkzcvjFNy59IMYLOtPLOx7yvV0Oq0Du0tTBp0FWByUkjoW4-YDW-V-lWHb3f48rOVWqnDzAM1MTTQY-tN8xuLHsc4DhF8MQGxGSSH-P3N-Iuo8tV6-zcLZM4QSTdae3XSUC13n1vdLYATwMCbyvsw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.{{api}}.cvs.dvsacloud.uk/{{branch}}/preparers",
+					"protocol": "https",
+					"host": [
+						"api",
+						"{{api}}",
+						"cvs",
+						"dvsacloud",
+						"uk"
+					],
+					"path": [
+						"{{branch}}",
+						"preparers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get preparers local",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3003/preparers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"preparers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

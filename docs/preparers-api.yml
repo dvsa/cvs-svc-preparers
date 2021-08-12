@@ -19,9 +19,7 @@ tags:
       url: 'https://link.com'
 
 paths:
-
   /preparers:
-    
     get:
       tags:
         - preparers
@@ -41,9 +39,8 @@ paths:
           description: Unauthorised Access
         '404':
           description: Preparers not found
-  
+
 components:
-  
   securitySchemes:
     OAuth2:
       type: oauth2
@@ -56,10 +53,9 @@ components:
             write: Grants write access
 
   schemas:
-
     preparers:
       type: array
-      items: 
+      items:
         type: object
         properties:
           preparerId:

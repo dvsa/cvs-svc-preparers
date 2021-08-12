@@ -8,7 +8,7 @@ class HTTPResponse {
    * @param body - the response body
    * @param headers - optional - the response headers
    */
-  constructor(statusCode: number, body: any, headers = {}) {
+  constructor(statusCode: number,body: any, headers = {}) {
     this.headers = headers;
     this.headers['Access-Control-Allow-Origin'] = '*';
     this.headers['Access-Control-Allow-Credentials'] = true;

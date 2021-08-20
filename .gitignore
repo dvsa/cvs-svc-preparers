@@ -35,3 +35,4 @@ coverage/**
 report.json
 .build/
 .reports/
+node_modules

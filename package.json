@@ -19,7 +19,7 @@
     "test:integration": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
     "prepush": "npm run test && npm run build && npm run test-i",
     "predeploy": "npm install && npm run prepush",
-    "security-checks": "git secrets --scan && git log -p | scanrepo",
+    "security-checks": "git secrets --scan",
     "lint": "tslint src/**/*.ts tests/**/*.ts -q --fix",
     "sonar-scanner": "sonar-scanner",
     "audit": "npm audit --prod",

@@ -2,12 +2,12 @@ dynamodb:
   local:
     params:
       region: localhost
-      endpoint: http://localhost:8006
+      endpoint: http://127.0.0.1:8006
     table: cvs-local-preparers
   local-global:
     params:
       region: localhost
-      endpoint: http://localhost:8000
+      endpoint: http://127.0.0.1:8000
     table: cvs-local-global-preparers
   remote:
     params: {}

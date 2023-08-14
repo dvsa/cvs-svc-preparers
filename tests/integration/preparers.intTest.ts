@@ -4,7 +4,7 @@ import { emptyDatabase, populateDatabase } from '../util/dbOperations';
 import { HTTPRESPONSE } from '../../src/assets/Enums';
 import preparersData from '../resources/preparers.json';
 
-const url = 'http://localhost:3003/';
+const url = 'http://127.0.0.1:3003/';
 const request = supertest(url);
 
 describe('preparers', () => {

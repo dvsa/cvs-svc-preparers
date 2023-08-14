@@ -28,7 +28,7 @@ describe('ConfigurationUtil', () => {
         try {
           expect(emptyConfig.getDynamoDBConfig()).toThrowError();
         } catch (e) {
-          expect(e.message).toEqual(ERRORS.DynamoDBConfigNotDefined);
+          expect((e as Error).message).toEqual(ERRORS.DynamoDBConfigNotDefined);
         }
       });
     });
@@ -74,7 +74,7 @@ describe('ConfigurationUtil', () => {
         try {
           expect(getMockedConfig().getDynamoDBConfig()).toThrowError();
         } catch (e) {
-          expect(e.message).toEqual(ERRORS.NoBranch);
+          expect((e as Error).message).toEqual(ERRORS.NoBranch);
         }
       });
     });

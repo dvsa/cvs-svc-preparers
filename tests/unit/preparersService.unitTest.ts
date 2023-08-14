@@ -36,8 +36,8 @@ describe('getPreparersList', () => {
           expect(await preparersService.getPreparersList()).toThrowError();
         } catch (errorResponse) {
           expect(errorResponse).toBeInstanceOf(HTTPError);
-          expect(errorResponse.statusCode).toEqual(404);
-          expect(errorResponse.body).toEqual('No resources match the search criteria.');
+          expect((errorResponse as HTTPError).statusCode).toEqual(404);
+          expect((errorResponse as HTTPError).body).toEqual('No resources match the search criteria.');
         }
       });
     });
@@ -58,8 +58,8 @@ describe('getPreparersList', () => {
         expect(await preparersService.getPreparersList()).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual('Internal Server Error');
       }
     });
   });
@@ -86,8 +86,8 @@ describe('insertPreparerList', () => {
         expect(await preparersService.insertPreparerList(mockData)).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual('Internal Server Error');
       }
     });
   });
@@ -108,8 +108,8 @@ describe('insertPreparerList', () => {
         expect(await preparersService.insertPreparerList(mockData)).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual('Internal Server Error');
       }
     });
   });

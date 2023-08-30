@@ -1,7 +1,7 @@
 service: cvs-svc-preparers
 configValidationMode: warn
 plugins:
-  - serverless-dynamodb
+  - serverless-dynamodb-local
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-plugin-typescript
@@ -41,6 +41,7 @@ custom:
       migrate: true
       seed: true
       noStart: false
+      host: 127.0.0.1
     seed:
       preparers:
         sources:

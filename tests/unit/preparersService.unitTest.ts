@@ -1,12 +1,12 @@
 /* global describe context it */
-import PreparersService from '../../src/services/PreparersService';
-import HTTPError from '../../src/models/HTTPError';
-import preparers from '../resources/preparers.json';
+import PreparersService from "../../src/services/PreparersService";
+import HTTPError from "../../src/models/HTTPError";
+import preparers from "../resources/preparers.json";
 
-describe('getPreparersList', () => {
-  describe('when database is on', () => {
-    context('database call returns valid data', () => {
-      it('should return the expected data', () => {
+describe("getPreparersList", () => {
+  describe("when database is on", () => {
+    context("database call returns valid data", () => {
+      it("should return the expected data", () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => {
           return {
             getAll: () => {
@@ -21,8 +21,8 @@ describe('getPreparersList', () => {
         });
       });
     });
-    context('database call returns empty data', () => {
-      it('should return error 404', async () => {
+    context("database call returns empty data", () => {
+      it("should return error 404", async () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => {
           return {
             getAll: () => {
@@ -35,16 +35,16 @@ describe('getPreparersList', () => {
         try {
           expect(await preparersService.getPreparersList()).toThrowError();
         } catch (errorResponse) {
-          expect(errorResponse).toBeInstanceOf(HTTPError);
-          expect(errorResponse.statusCode).toEqual(404);
-          expect(errorResponse.body).toEqual('No resources match the search criteria.');
+          expect((errorResponse as HTTPError)).toBeInstanceOf(HTTPError);
+          expect((errorResponse as HTTPError).statusCode).toEqual(404);
+          expect((errorResponse as HTTPError).body).toEqual("No resources match the search criteria.");
         }
       });
     });
   });
 
-  describe('when database is off', () => {
-    it('should return error 500', async () => {
+  describe("when database is off", () => {
+    it("should return error 500", async () => {
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           getAll: () => {
@@ -58,8 +58,8 @@ describe('getPreparersList', () => {
         expect(await preparersService.getPreparersList()).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual("Internal Server Error");
       }
     });
   });
@@ -69,14 +69,14 @@ describe('getPreparersList', () => {
   });
 });
 
-describe('insertPreparerList', () => {
-  context('when db does not return response', () => {
-    it('should throw 500-Internal Server Error', async () => {
+describe("insertPreparerList", () => {
+  context("when db does not return response", () => {
+    it("should throw 500-Internal Server Error", async () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           createMultiple: () => {
-            return Promise.reject(new HTTPError(500, 'Internal Server Error'));
+            return Promise.reject(new HTTPError(500, "Internal Server Error"));
           }
         };
       });
@@ -86,14 +86,14 @@ describe('insertPreparerList', () => {
         expect(await preparersService.insertPreparerList(mockData)).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual("Internal Server Error");
       }
     });
   });
 
-  context('when db does not return response OR an error', () => {
-    it('should still throw 500-Internal Server Error', async () => {
+  context("when db does not return response OR an error", () => {
+    it("should still throw 500-Internal Server Error", async () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
@@ -108,14 +108,14 @@ describe('insertPreparerList', () => {
         expect(await preparersService.insertPreparerList(mockData)).toThrowError();
       } catch (errorResponse) {
         expect(errorResponse).toBeInstanceOf(HTTPError);
-        expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect((errorResponse as HTTPError).statusCode).toEqual(500);
+        expect((errorResponse as HTTPError).body).toEqual("Internal Server Error");
       }
     });
   });
 
-  context('when insert a valid preparers array', () => {
-    it('should return 200', () => {
+  context("when insert a valid preparers array", () => {
+    it("should return 200", () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
@@ -133,13 +133,13 @@ describe('insertPreparerList', () => {
     });
   });
 
-  context('when insert a valid preparers array with unprocessed items', () => {
-    it('should return 200', () => {
+  context("when insert a valid preparers array with unprocessed items", () => {
+    it("should return 200", () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           createMultiple: () => {
-            return Promise.resolve({ UnprocessedItems: [{ failed: 'something' }] });
+            return Promise.resolve({ UnprocessedItems: [{ failed: "something" }] });
           }
         };
       });
@@ -151,13 +151,13 @@ describe('insertPreparerList', () => {
     });
   });
 
-  context('DAO returns incorrect object', () => {
-    it('returns nothing, no error', () => {
+  context("DAO returns incorrect object", () => {
+    it("returns nothing, no error", () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           createMultiple: () => {
-            return Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] });
+            return Promise.resolve({ WrongThing: [{ test: "rhubarb" }] });
           }
         };
       });
@@ -174,14 +174,14 @@ describe('insertPreparerList', () => {
   });
 });
 
-describe('deletePreparerList', () => {
-  context('when DAO throws an error', () => {
-    it('should return 500-Internal Server Error', () => {
+describe("deletePreparerList", () => {
+  context("when DAO throws an error", () => {
+    it("should return 500-Internal Server Error", () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           deleteMultiple: () => {
-            return Promise.reject(new HTTPError(500, 'Internal Server Error'));
+            return Promise.reject(new HTTPError(500, "Internal Server Error"));
           }
         };
       });
@@ -190,13 +190,13 @@ describe('deletePreparerList', () => {
       return preparersService.deletePreparerList(mockData).catch((errorResponse) => {
         expect(errorResponse).toBeInstanceOf(HTTPError);
         expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect(errorResponse.body).toEqual("Internal Server Error");
       });
     });
   });
 
-  context('when db throws an error with no body', () => {
-    it('should return 500-Internal Server Error', () => {
+  context("when db throws an error with no body", () => {
+    it("should return 500-Internal Server Error", () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
@@ -210,13 +210,13 @@ describe('deletePreparerList', () => {
       return preparersService.deletePreparerList(mockData).catch((errorResponse) => {
         expect(errorResponse).toBeInstanceOf(HTTPError);
         expect(errorResponse.statusCode).toEqual(500);
-        expect(errorResponse.body).toEqual('Internal Server Error');
+        expect(errorResponse.body).toEqual("Internal Server Error");
       });
     });
   });
 
-  context('when deleting a valid preparers array', () => {
-    it('should return 200', () => {
+  context("when deleting a valid preparers array", () => {
+    it("should return 200", () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
@@ -234,13 +234,13 @@ describe('deletePreparerList', () => {
     });
   });
 
-  context('DAO returns incorrect object', () => {
-    it('returns nothing, no error', () => {
+  context("DAO returns incorrect object", () => {
+    it("returns nothing, no error", () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           deleteMultiple: () => {
-            return Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] });
+            return Promise.resolve({ WrongThing: [{ test: "rhubarb" }] });
           }
         };
       });

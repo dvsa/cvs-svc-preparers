@@ -33,10 +33,10 @@ describe('preparers', () => {
           if (err) {
             expect.assertions(0);
           }
-          expect(res.statusCode).toEqual(200);
-          expect(res.headers['access-control-allow-origin']).toEqual('*');
-          expect(res.headers['access-control-allow-credentials']).toEqual('true');
-          expect(res.body.length).toEqual(expectedResponse.length);
+          expect(res.statusCode).toBe(200);
+          expect(res.headers['access-control-allow-origin']).toBe('*');
+          expect(res.headers['access-control-allow-credentials']).toBe('true');
+          expect(res.body).toHaveLength(expectedResponse.length);
           done();
         });
       });
@@ -60,7 +60,7 @@ describe('preparers', () => {
       expect(res.clientError).toBeTruthy();
       expect(res.notFound).toBeTruthy();
       expect(res.ok).toBeFalsy();
-      expect(res.status).toEqual(404);
+      expect(res.status).toBe(404);
       expect(res.body).toEqual(HTTPRESPONSE.RESOURCE_NOT_FOUND);
     });
   });

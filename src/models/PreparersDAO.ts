@@ -1,6 +1,6 @@
+import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
 */
@@ -16,6 +16,7 @@ if (process.env._X_AMZN_TRACE_ID) {
 
 class PreparersDAO {
   private tableName: string;
+
   private static docClient: DocumentClient;
 
   constructor() {

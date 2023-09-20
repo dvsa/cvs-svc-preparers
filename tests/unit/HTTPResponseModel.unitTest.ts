@@ -9,7 +9,7 @@ describe('HTTP Response Model', () => {
       expect(resp.headers['X-Content-Type-Options']).toBeTruthy();
       expect(resp.headers['X-XSS-Protection']).toBeTruthy();
       expect(resp.headers.thing).toBeTruthy();
-      expect(resp.statusCode).toEqual(418);
+      expect(resp.statusCode).toBe(418);
       expect(resp.body).toEqual(JSON.stringify('winning'));
     });
     it('creates Headers (without  seed headers)', () => {
@@ -19,7 +19,7 @@ describe('HTTP Response Model', () => {
       expect(resp.headers['X-Content-Type-Options']).toBeTruthy();
       expect(resp.headers['X-XSS-Protection']).toBeTruthy();
       expect(resp.headers.thing).toBeFalsy();
-      expect(resp.statusCode).toEqual(418);
+      expect(resp.statusCode).toBe(418);
       expect(resp.body).toEqual(JSON.stringify('winning'));
     });
   });

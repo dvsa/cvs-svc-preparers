@@ -1,8 +1,8 @@
 // @ts-ignore
 import * as yml from 'node-yaml';
+import { Handler } from 'aws-lambda';
 import { IInvokeConfig, IDBConfig } from '../models';
 import { ERRORS } from '../assets/Enums';
-import { Handler } from 'aws-lambda';
 
 /**
  * Configuration class for retrieving project config
@@ -24,6 +24,7 @@ interface IFunctionEvent {
 
 class Configuration {
   private static instance: Configuration;
+
   private readonly config: any;
 
   constructor(configPath: string) {
@@ -34,7 +35,7 @@ class Configuration {
     const config = yml.readSync(configPath);
     // Replace environment variable references
     let stringifiedConfig: string = JSON.stringify(config);
-    const envRegex: RegExp = /\${(\w+\b):?(\w+\b)?}/g;
+    const envRegex = /\${(\w+\b):?(\w+\b)?}/g;
     const matches: RegExpMatchArray | null = stringifiedConfig.match(envRegex);
 
     if (matches) {

@@ -1,6 +1,6 @@
+import * as _ from 'lodash';
 import PreparersDAO from '../../src/models/PreparersDAO';
 import preparers from '../resources/preparers.json';
-import * as _ from 'lodash';
 
 export const populateDatabase = async () => {
   const preparersMockDB = _.cloneDeep(preparers);

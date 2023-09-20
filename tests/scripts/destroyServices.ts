@@ -1,5 +1,6 @@
 import util from 'util';
 import { exec } from 'child_process';
+
 const shell = util.promisify(exec);
 
 let PID_SERVER_IN_CONTAINER;

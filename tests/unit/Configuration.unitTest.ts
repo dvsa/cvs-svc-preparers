@@ -26,7 +26,7 @@ describe('ConfigurationUtil', () => {
       );
       it('should throw error', () => {
         try {
-          expect(emptyConfig.getDynamoDBConfig()).toThrowError();
+          expect(emptyConfig.getDynamoDBConfig()).toThrow();
         } catch (e) {
           expect((e as Error).message).toEqual(ERRORS.DynamoDBConfigNotDefined);
         }
@@ -38,7 +38,7 @@ describe('ConfigurationUtil', () => {
       it('should return the local invoke config', () => {
         expect(dbConfig).toHaveProperty('params');
         expect(dbConfig).toHaveProperty('table');
-        expect(dbConfig.table).toEqual('cvs-local-preparers');
+        expect(dbConfig.table).toBe('cvs-local-preparers');
       });
     });
 
@@ -49,7 +49,7 @@ describe('ConfigurationUtil', () => {
         expect(dbConfig).toHaveProperty('params');
         expect(dbConfig).toHaveProperty('table');
         expect(dbConfig).not.toHaveProperty('keys');
-        expect(dbConfig.table).toEqual('cvs-local-global-preparers');
+        expect(dbConfig.table).toBe('cvs-local-global-preparers');
         expect(dbConfig.params).toHaveProperty('region');
         expect(dbConfig.params).toHaveProperty('endpoint');
       });
@@ -63,7 +63,7 @@ describe('ConfigurationUtil', () => {
         expect(dbConfig).toHaveProperty('params');
         expect(dbConfig).toHaveProperty('table');
         expect(dbConfig).not.toHaveProperty('keys');
-        expect(dbConfig.table).toEqual('cvs-develop-preparers');
+        expect(dbConfig.table).toBe('cvs-develop-preparers');
         expect(dbConfig.params).toStrictEqual({});
       });
     });
@@ -72,7 +72,7 @@ describe('ConfigurationUtil', () => {
       it('should throw error', () => {
         process.env.BRANCH = '';
         try {
-          expect(getMockedConfig().getDynamoDBConfig()).toThrowError();
+          expect(getMockedConfig().getDynamoDBConfig()).toThrow();
         } catch (e) {
           expect((e as Error).message).toEqual(ERRORS.NoBranch);
         }

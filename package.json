@@ -21,7 +21,7 @@
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan",
     "lint:analyse": "eslint . --ext js,ts --fix",
-    "lint:report": "npm run lint:analyse -- -f json -o reports/eslint/eslint-report.json",
+    "lint:report": "npm run lint:analyse -- -f json -o .reports/eslint/eslint-report.json",
     "lint": "npm-run-all lint:*",
     "sonar-scanner": "npm run test && sonar-scanner",
     "audit": "npm audit --omit=dev",

@@ -21,6 +21,7 @@
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/await-thenable": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/comma-dangle": "off",
     "import/no-import-module-exports": "off",
     "import/no-extraneous-dependencies": "off",
     "jest/no-conditional-expect": "off",
@@ -34,6 +35,7 @@
     "no-underscore-dangle": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
-    "prefer-promise-reject-errors": "off"
+    "prefer-promise-reject-errors": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }

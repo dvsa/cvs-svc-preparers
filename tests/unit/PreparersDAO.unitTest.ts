@@ -16,7 +16,7 @@ describe('Preparers DAO', () => {
       AWS.DynamoDB.DocumentClient.prototype.scan = jest
         .fn()
         .mockImplementation((params: DocumentClient.ScanInput) => ({
-          promise: () => Promise.resolve('success'),
+          promise: () => Promise.resolve('success')
         }));
       const dao = new PreparerDAO();
       const output = await dao.getAll();
@@ -28,7 +28,7 @@ describe('Preparers DAO', () => {
       AWS.DynamoDB.DocumentClient.prototype.scan = jest
         .fn()
         .mockImplementation((params: DocumentClient.ScanInput) => ({
-          promise: () => Promise.resolve(myError),
+          promise: () => Promise.resolve(myError)
         }));
       const dao = new PreparerDAO();
       const output = await dao.getAll();
@@ -49,14 +49,14 @@ describe('Preparers DAO', () => {
           promise: () => {
             stub = params;
             return Promise.resolve('success');
-          },
+          }
         }));
       const expectedParams = [
         {
           PutRequest: {
-            Item: { item: 'testItem' },
-          },
-        },
+            Item: { item: 'testItem' }
+          }
+        }
       ];
       const dao = new PreparerDAO();
       const output = await dao.createMultiple([{ item: 'testItem' }]);
@@ -73,7 +73,7 @@ describe('Preparers DAO', () => {
           promise: () => {
             stub = params;
             return Promise.reject(myError);
-          },
+          }
         }));
       const dao = new PreparerDAO();
       try {
@@ -98,16 +98,16 @@ describe('Preparers DAO', () => {
           promise: () => {
             stub = params;
             return Promise.resolve('success');
-          },
+          }
         }));
       const expectedParams = [
         {
           DeleteRequest: {
             Key: {
-              preparerId: 'testItem',
-            },
-          },
-        },
+              preparerId: 'testItem'
+            }
+          }
+        }
       ];
       const dao = new PreparerDAO();
       const output = await dao.deleteMultiple(['testItem']);
@@ -120,7 +120,7 @@ describe('Preparers DAO', () => {
       AWS.DynamoDB.DocumentClient.prototype.batchWrite = jest
         .fn()
         .mockImplementation((params: DocumentClient.ScanInput) => ({
-          promise: () => Promise.reject(myError),
+          promise: () => Promise.reject(myError)
         }));
       const dao = new PreparerDAO();
       try {

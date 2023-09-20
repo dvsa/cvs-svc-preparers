@@ -37,8 +37,8 @@ class PreparersDAO {
     preparerItems.forEach((preparerItem: any) => {
       params.RequestItems[this.tableName].push({
         PutRequest: {
-          Item: preparerItem,
-        },
+          Item: preparerItem
+        }
       });
     });
 
@@ -52,9 +52,9 @@ class PreparersDAO {
       params.RequestItems[this.tableName].push({
         DeleteRequest: {
           Key: {
-            preparerId: key,
-          },
-        },
+            preparerId: key
+          }
+        }
       });
     });
 
@@ -64,8 +64,8 @@ class PreparersDAO {
   public generatePartialParams(): any {
     return {
       RequestItems: {
-        [this.tableName]: [],
-      },
+        [this.tableName]: []
+      }
     };
   }
 }

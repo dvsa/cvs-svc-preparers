@@ -3,11 +3,11 @@ export enum ERRORS {
   DynamoDBConfigNotDefined = 'DynamoDB config is not defined in the config file.',
   LambdaInvokeConfigNotDefined = 'Lambda Invoke config is not defined in the config file.',
   EventIsEmpty = 'Event is empty',
-  NoBranch = 'Please define BRANCH environment variable',
+  NoBranch = 'Please define BRANCH environment variable'
 }
 
 export enum HTTPRESPONSE {
   AWS_EVENT_EMPTY = 'AWS event is empty. Check your test event.',
   NOT_VALID_JSON = 'Body is not a valid JSON.',
-  RESOURCE_NOT_FOUND = 'No resources match the search criteria.',
+  RESOURCE_NOT_FOUND = 'No resources match the search criteria.'
 }

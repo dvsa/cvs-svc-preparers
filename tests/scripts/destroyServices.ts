@@ -10,7 +10,7 @@ export const killTestSetup = async () => {
   console.log('Trying to kill test setups in the CI 🦾 ...');
   try {
     const { stdout: serverStream } = await shell(
-      `${process.cwd()}/tests/scripts/getPidServer.sh`,
+      `${process.cwd()}/tests/scripts/getPidServer.sh`
     );
     const { stdout: DBStream } = await shell(`${process.cwd()}/tests/scripts/getPidDB.sh`);
     PID_SERVER_IN_CONTAINER = serverStream.trim();

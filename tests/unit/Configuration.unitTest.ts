@@ -22,7 +22,7 @@ describe('ConfigurationUtil', () => {
     context('the config is empty', () => {
       process.env.BRANCH = 'local';
       const emptyConfig: Configuration = new Configuration(
-        '../../tests/resources/EmptyConfig.yml',
+        '../../tests/resources/EmptyConfig.yml'
       );
       it('should throw error', () => {
         try {

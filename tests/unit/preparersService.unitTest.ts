@@ -8,7 +8,7 @@ describe('getPreparersList', () => {
     context('database call returns valid data', () => {
       it('should return the expected data', () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-          getAll: () => Promise.resolve({ Items: [...preparers], Count: 29, ScannedCount: 29 }),
+          getAll: () => Promise.resolve({ Items: [...preparers], Count: 29, ScannedCount: 29 })
         }));
         const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -20,16 +20,18 @@ describe('getPreparersList', () => {
     context('database call returns empty data', () => {
       it('should return error 404', async () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-          getAll: () => Promise.resolve({ Items: [...preparers], Count: 0, ScannedCount: 0 }),
+          getAll: () => Promise.resolve({ Items: [...preparers], Count: 0, ScannedCount: 0 })
         }));
         const preparersService = new PreparersService(new MockPreparersDAO());
 
         try {
           expect(await preparersService.getPreparersList()).toThrow();
         } catch (errorResponse) {
-          expect((errorResponse as HTTPError)).toBeInstanceOf(HTTPError);
+          expect(errorResponse as HTTPError).toBeInstanceOf(HTTPError);
           expect((errorResponse as HTTPError).statusCode).toBe(404);
-          expect((errorResponse as HTTPError).body).toBe('No resources match the search criteria.');
+          expect((errorResponse as HTTPError).body).toBe(
+            'No resources match the search criteria.'
+          );
         }
       });
     });
@@ -38,7 +40,7 @@ describe('getPreparersList', () => {
   describe('when database is off', () => {
     it('should return error 500', async () => {
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        getAll: () => Promise.reject({ Items: [...preparers], Count: 29, ScannedCount: 29 }),
+        getAll: () => Promise.reject({ Items: [...preparers], Count: 29, ScannedCount: 29 })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -62,7 +64,7 @@ describe('insertPreparerList', () => {
     it('should throw 500-Internal Server Error', async () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        createMultiple: () => Promise.reject(new HTTPError(500, 'Internal Server Error')),
+        createMultiple: () => Promise.reject(new HTTPError(500, 'Internal Server Error'))
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -80,7 +82,7 @@ describe('insertPreparerList', () => {
     it('should still throw 500-Internal Server Error', async () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        createMultiple: () => Promise.reject(),
+        createMultiple: () => Promise.reject()
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -98,7 +100,7 @@ describe('insertPreparerList', () => {
     it('should return 200', () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        createMultiple: () => Promise.resolve({ UnprocessedItems: {} }),
+        createMultiple: () => Promise.resolve({ UnprocessedItems: {} })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -113,7 +115,7 @@ describe('insertPreparerList', () => {
     it('should return 200', () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        createMultiple: () => Promise.resolve({ UnprocessedItems: [{ failed: 'something' }] }),
+        createMultiple: () => Promise.resolve({ UnprocessedItems: [{ failed: 'something' }] })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -127,7 +129,7 @@ describe('insertPreparerList', () => {
     it('returns nothing, no error', () => {
       const mockData = [preparers[0]];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        createMultiple: () => Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] }),
+        createMultiple: () => Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -147,7 +149,7 @@ describe('deletePreparerList', () => {
     it('should return 500-Internal Server Error', () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        deleteMultiple: () => Promise.reject(new HTTPError(500, 'Internal Server Error')),
+        deleteMultiple: () => Promise.reject(new HTTPError(500, 'Internal Server Error'))
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -163,7 +165,7 @@ describe('deletePreparerList', () => {
     it('should return 500-Internal Server Error', () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        deleteMultiple: () => Promise.reject(),
+        deleteMultiple: () => Promise.reject()
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -179,7 +181,7 @@ describe('deletePreparerList', () => {
     it('should return 200', () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        deleteMultiple: () => Promise.resolve({ UnprocessedItems: {} }),
+        deleteMultiple: () => Promise.resolve({ UnprocessedItems: {} })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 
@@ -194,7 +196,7 @@ describe('deletePreparerList', () => {
     it('returns nothing, no error', () => {
       const mockData = [preparers[0].preparerId];
       const MockPreparersDAO = jest.fn().mockImplementation(() => ({
-        deleteMultiple: () => Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] }),
+        deleteMultiple: () => Promise.resolve({ WrongThing: [{ test: 'rhubarb' }] })
       }));
       const preparersService = new PreparersService(new MockPreparersDAO());
 

@@ -12,7 +12,7 @@ class PreparersDAOMock {
     const responseObject = {
       Items: this.preparersRecordsMock,
       Count: this.numberOfRecords,
-      ScannedCount: this.numberOfScannedRecords
+      ScannedCount: this.numberOfScannedRecords,
     };
 
     if (!this.isDatabaseOn) {

@@ -8,12 +8,8 @@ const getPreparers = () => {
 
   return preparersService
     .getPreparersList()
-    .then((data: any) => {
-      return new HTTPResponse(200, data);
-    })
-    .catch((error: any) => {
-      return new HTTPResponse(error.statusCode, error.body);
-    });
+    .then((data: any) => new HTTPResponse(200, data))
+    .catch((error: any) => new HTTPResponse(error.statusCode, error.body));
 };
 
 export default getPreparers;

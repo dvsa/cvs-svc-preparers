@@ -3,7 +3,9 @@
  */
 class HTTPError extends Error {
   public statusCode: number;
+
   public body: any;
+
   /**
    * Constructor for the HTTPResponseError class
    * @param statusCode the HTTP status code

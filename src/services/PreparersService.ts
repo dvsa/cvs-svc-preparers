@@ -46,7 +46,7 @@ class PreparersService {
           console.error(error);
         } else {
           console.error(
-            'An unknown error occurred during preparersDAO.createMultiple - promise rejected but no message returned'
+            'An unknown error occurred during preparersDAO.createMultiple - promise rejected but no message returned',
           );
         }
         throw new HTTPError(500, 'Internal Server Error');
@@ -66,7 +66,7 @@ class PreparersService {
           console.error(error);
         } else {
           console.error(
-            'An unknown error occurred during preparersDAO.deleteMultiple - promise rejected but no message returned'
+            'An unknown error occurred during preparersDAO.deleteMultiple - promise rejected but no message returned',
           );
         }
         throw new HTTPError(500, 'Internal Server Error');

@@ -1,7 +1,10 @@
 class HTTPResponse {
   public headers: any;
+
   public statusCode: number;
+
   public body: any;
+
   /**
    * Constructor for the HTTPResponse class
    * @param statusCode the HTTP status code

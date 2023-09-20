@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
+import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
 import PreparerDAO from '../../src/models/PreparersDAO';
 import HTTPError from '../../src/models/HTTPError';
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
 
 describe('Preparers DAO', () => {
   afterAll(() => {
@@ -15,25 +15,21 @@ describe('Preparers DAO', () => {
     it('returns data on successful query', async () => {
       AWS.DynamoDB.DocumentClient.prototype.scan = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => Promise.resolve('success')
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => Promise.resolve('success'),
+        }));
       const dao = new PreparerDAO();
       const output = await dao.getAll();
-      expect(output).toEqual('success');
+      expect(output).toBe('success');
     });
 
     it('returns error on failed query', async () => {
       const myError = new HTTPError(418, 'It broke');
       AWS.DynamoDB.DocumentClient.prototype.scan = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => Promise.resolve(myError)
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => Promise.resolve(myError),
+        }));
       const dao = new PreparerDAO();
       const output = await dao.getAll();
       expect(output).toEqual(myError);
@@ -49,24 +45,22 @@ describe('Preparers DAO', () => {
       let stub = null;
       AWS.DynamoDB.DocumentClient.prototype.batchWrite = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => {
-              stub = params;
-              return Promise.resolve('success');
-            }
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => {
+            stub = params;
+            return Promise.resolve('success');
+          },
+        }));
       const expectedParams = [
         {
           PutRequest: {
-            Item: { item: 'testItem' }
-          }
-        }
+            Item: { item: 'testItem' },
+          },
+        },
       ];
       const dao = new PreparerDAO();
       const output = await dao.createMultiple([{ item: 'testItem' }]);
-      expect(output).toEqual('success');
+      expect(output).toBe('success');
       expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
     });
 
@@ -75,17 +69,15 @@ describe('Preparers DAO', () => {
       let stub = null;
       AWS.DynamoDB.DocumentClient.prototype.batchWrite = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => {
-              stub = params;
-              return Promise.reject(myError);
-            }
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => {
+            stub = params;
+            return Promise.reject(myError);
+          },
+        }));
       const dao = new PreparerDAO();
       try {
-        expect(await dao.createMultiple(['testItem'])).toThrowError();
+        expect(await dao.createMultiple(['testItem'])).toThrow();
       } catch (err) {
         expect(err).toEqual(myError);
       }
@@ -102,26 +94,24 @@ describe('Preparers DAO', () => {
       let stub = null;
       AWS.DynamoDB.DocumentClient.prototype.batchWrite = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => {
-              stub = params;
-              return Promise.resolve('success');
-            }
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => {
+            stub = params;
+            return Promise.resolve('success');
+          },
+        }));
       const expectedParams = [
         {
           DeleteRequest: {
             Key: {
-              preparerId: 'testItem'
-            }
-          }
-        }
+              preparerId: 'testItem',
+            },
+          },
+        },
       ];
       const dao = new PreparerDAO();
       const output = await dao.deleteMultiple(['testItem']);
-      expect(output).toEqual('success');
+      expect(output).toBe('success');
       expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
     });
 
@@ -129,14 +119,12 @@ describe('Preparers DAO', () => {
       const myError = new HTTPError(418, 'It broke');
       AWS.DynamoDB.DocumentClient.prototype.batchWrite = jest
         .fn()
-        .mockImplementation((params: DocumentClient.ScanInput) => {
-          return {
-            promise: () => Promise.reject(myError)
-          };
-        });
+        .mockImplementation((params: DocumentClient.ScanInput) => ({
+          promise: () => Promise.reject(myError),
+        }));
       const dao = new PreparerDAO();
       try {
-        expect(await dao.deleteMultiple(['testItem'])).toThrowError();
+        expect(await dao.deleteMultiple(['testItem'])).toThrow();
       } catch (err) {
         expect(err).toEqual(myError);
       }

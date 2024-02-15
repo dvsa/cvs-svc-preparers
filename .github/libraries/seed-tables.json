@@ -1,0 +1,6 @@
+[
+  {
+    "table-name": "preparers",
+    "seed-file": "preparers.json"
+  }
+]

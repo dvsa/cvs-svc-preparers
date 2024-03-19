@@ -24,8 +24,7 @@
     "sonar-scanner": "npm run test && sonar-scanner",
     "audit": "npm audit --prod",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "node_modules/.bin/sls dynamodb install",
-    "postinstall": "patch-package"
+    "tools-setup": "sls dynamodb install"
   },
   "author": "",
   "license": "MIT",
@@ -67,10 +66,8 @@
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^4.0.1",
-    "patch-package": "^7.0.0",
     "prettier": "2.3.2",
     "serverless": "^2.45.2",
-    "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-tracing": "^2.0.0",
     "serverless-plugin-typescript": "^1.1.9",
@@ -87,7 +84,8 @@
     "aws-xray-sdk": "^3.3.4",
     "node-yaml": "^3.2.0",
     "path-parser": "^4.2.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "serverless-dynamodb": "^0.2.51"
   },
   "repository": {
     "type": "git",

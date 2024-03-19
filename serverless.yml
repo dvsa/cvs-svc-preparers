@@ -1,18 +1,20 @@
 service: cvs-svc-preparers
 configValidationMode: warn
+
 plugins:
-  - serverless-dynamodb-local
+  - serverless-dynamodb
   - serverless-offline
   - serverless-plugin-tracing
   - serverless-plugin-typescript
 
 provider:
-  lambdaHashingVersion: 20201221
   name: aws
   runtime: nodejs18.x
   tracing:
     apiGateway: true
     lambda: true
+  region: eu-west-1
+  stage: dev
   iam:
     role:
       statements:
@@ -25,6 +27,8 @@ provider:
 
 functions:
   getPreparers:
+    environment:
+      BRANCH: local
     handler: src/handler.handler
     events:
       - http:
@@ -33,8 +37,8 @@ functions:
 
 custom:
   serverless-offline:
-    port: 3003
-  dynamodb:
+    httpPort: 3003
+  serverless-dynamodb:
     start:
       port: 8006
       inMemory: true

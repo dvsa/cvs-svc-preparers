@@ -52,7 +52,7 @@ jobs:
           aws-region: ${{ secrets.DVSA_AWS_REGION }}
           role-session-name: 'cvs-app-vtm'
       - uses: aws-actions/aws-secretsmanager-get-secrets@v1
-        with: 
+        with:
           secret-ids: sonarqube-gha
           parse-json-secrets: true
       - name: Install dependencies

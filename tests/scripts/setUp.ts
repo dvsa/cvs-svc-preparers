@@ -40,7 +40,7 @@ const server = exec('npm run start', (error, stdout, stderr) => {
   }
   console.log(`stdout server: ${stdout}`);
   console.error(`stderr server: ${stderr}`);
-}); 
+});
 
 module.exports = async () => {
   console.log(`\nSetting up Integration tests...\n\n`);

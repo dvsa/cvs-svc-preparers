@@ -5,10 +5,10 @@
   "main": "handler.js",
   "engines": {
     "node": "18.*",
-    "npm": "9.*"
+    "npm": "10.*"
   },
   "scripts": {
-    "start": "BRANCH=local serverless offline start",
+    "start": "BRANCH=local serverless offline start --noPrependStageInUrl",
     "setup": "echo 'setting up repo'... && ts-node tests/scripts/installDynamoDB.ts && echo 'repo setup done ✅'",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
@@ -24,8 +24,7 @@
     "sonar-scanner": "npm run test && sonar-scanner",
     "audit": "npm audit --prod",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "node_modules/.bin/sls dynamodb install",
-    "postinstall": "patch-package"
+    "tools-setup": "sls dynamodb install"
   },
   "author": "",
   "license": "MIT",
@@ -49,9 +48,9 @@
     "instrument": true
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-typescript": "^7.6.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-typescript": "^7.23.2",
     "@types/jest": "29.5.3",
     "@types/jest-plugin-context": "^2.9.2",
     "@types/lambda-tester": "^3.6.1",
@@ -67,13 +66,11 @@
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^4.0.1",
-    "patch-package": "^7.0.0",
     "prettier": "2.3.2",
-    "serverless": "^2.45.2",
-    "serverless-dynamodb-local": "^0.2.40",
-    "serverless-offline": "^5.12.1",
+    "serverless": "^3.38.0",
+    "serverless-offline": "^12.0.4",
     "serverless-plugin-tracing": "^2.0.0",
-    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-plugin-typescript": "^2.1.4",
     "sonarqube-scanner": "^3.3.0",
     "supertest": "^4.0.2",
     "ts-jest": "29.1.1",
@@ -87,7 +84,8 @@
     "aws-xray-sdk": "^3.3.4",
     "node-yaml": "^3.2.0",
     "path-parser": "^4.2.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "serverless-dynamodb": "^0.2.51"
   },
   "repository": {
     "type": "git",

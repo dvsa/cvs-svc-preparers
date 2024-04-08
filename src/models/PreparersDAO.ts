@@ -19,11 +19,11 @@ class PreparersDAO {
     }
   }
 
-  public getAll() {
+  public async getAll() {
     return PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName }));
   }
 
-  public createMultiple(preparerItems: any[]) {
+  public async createMultiple(preparerItems: any[]) {
     const params = this.generatePartialParams();
 
     preparerItems.forEach((preparerItem: any) => {
@@ -37,7 +37,7 @@ class PreparersDAO {
     return PreparersDAO.docClient.send(new BatchWriteItemCommand(params));
   }
 
-  public deleteMultiple(primaryKeysToBeDeleted: string[]) {
+  public async deleteMultiple(primaryKeysToBeDeleted: string[]) {
     const params = this.generatePartialParams();
 
     primaryKeysToBeDeleted.forEach((key) => {

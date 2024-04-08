@@ -11,7 +11,11 @@ describe('getPreparersList', () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => {
           return {
             getAll: () => {
-              return Promise.resolve({ Items: preparers.map((item) => marshall(item)), Count: 29, ScannedCount: 29 });
+              return Promise.resolve({
+                Items: preparers.map((item) => marshall(item)),
+                Count: 29,
+                ScannedCount: 29
+              });
             }
           };
         });
@@ -27,7 +31,11 @@ describe('getPreparersList', () => {
         const MockPreparersDAO = jest.fn().mockImplementation(() => {
           return {
             getAll: () => {
-              return Promise.resolve({ Items: preparers.map((item) => marshall(item)), Count: 0, ScannedCount: 0 });
+              return Promise.resolve({
+                Items: preparers.map((item) => marshall(item)),
+                Count: 0,
+                ScannedCount: 0
+              });
             }
           };
         });
@@ -51,7 +59,11 @@ describe('getPreparersList', () => {
       const MockPreparersDAO = jest.fn().mockImplementation(() => {
         return {
           getAll: () => {
-            return Promise.reject({ Items: preparers.map((item) => marshall(item)), Count: 29, ScannedCount: 29 });
+            return Promise.reject({
+              Items: preparers.map((item) => marshall(item)),
+              Count: 29,
+              ScannedCount: 29
+            });
           }
         };
       });

@@ -1,6 +1,6 @@
 import HTTPError from '../models/HTTPError';
 import PreparersDAO from '../models/PreparersDAO';
-import { unmarshall } from '@aws-sdk/util-dynamodb'
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 /**
  * Fetches the entire list of preparers from the database.

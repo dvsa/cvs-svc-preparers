@@ -1,5 +1,11 @@
-import { BatchWriteItemCommand, BatchWriteItemCommandOutput, DynamoDBClient, ScanCommand, ScanCommandOutput } from '@aws-sdk/client-dynamodb';
-import { mockClient } from "aws-sdk-client-mock";
+import {
+  BatchWriteItemCommand,
+  BatchWriteItemCommandOutput,
+  DynamoDBClient,
+  ScanCommand,
+  ScanCommandOutput
+} from '@aws-sdk/client-dynamodb';
+import { mockClient } from 'aws-sdk-client-mock';
 import HTTPError from '../../src/models/HTTPError';
 import PreparerDAO from '../../src/models/PreparersDAO';
 
@@ -15,7 +21,7 @@ describe('Preparers DAO', () => {
     });
 
     it('returns data on successful query', async () => {
-      client.on(ScanCommand).resolves('success' as unknown as ScanCommandOutput)
+      client.on(ScanCommand).resolves('success' as unknown as ScanCommandOutput);
       const dao = new PreparerDAO();
       const output = await dao.getAll();
       expect(output).toEqual('success');
@@ -30,15 +36,16 @@ describe('Preparers DAO', () => {
     });
   });
 
-
   context('createMultiple', () => {
     beforeEach(() => {
       client.reset();
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      let stub = null;
-      client.on(BatchWriteItemCommand).resolves('success' as unknown as BatchWriteItemCommandOutput);
+      const stub = null;
+      client
+        .on(BatchWriteItemCommand)
+        .resolves('success' as unknown as BatchWriteItemCommandOutput);
       const expectedParams = [
         {
           PutRequest: {
@@ -53,8 +60,8 @@ describe('Preparers DAO', () => {
     });
     it('returns error on failed query', async () => {
       const myError = new HTTPError(418, 'It broke');
-      let stub = null;
-      client.on(BatchWriteItemCommand).rejects(myError as unknown as BatchWriteItemCommandOutput)
+      const stub = null;
+      client.on(BatchWriteItemCommand).rejects(myError as unknown as BatchWriteItemCommandOutput);
       const dao = new PreparerDAO();
       try {
         expect(await dao.createMultiple(['testItem'])).toThrowError();
@@ -70,8 +77,10 @@ describe('Preparers DAO', () => {
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      let stub = null;
-      client.on(BatchWriteItemCommand).resolves('success' as unknown as BatchWriteItemCommandOutput)
+      const stub = null;
+      client
+        .on(BatchWriteItemCommand)
+        .resolves('success' as unknown as BatchWriteItemCommandOutput);
       const dao = new PreparerDAO();
       const output = await dao.deleteMultiple(['testItem']);
       expect(output).toEqual('success');
@@ -79,7 +88,7 @@ describe('Preparers DAO', () => {
 
     it('returns error on failed query', async () => {
       const myError = new HTTPError(418, 'It broke');
-      client.on(BatchWriteItemCommand).rejects(myError as unknown as BatchWriteItemCommandOutput)
+      client.on(BatchWriteItemCommand).rejects(myError as unknown as BatchWriteItemCommandOutput);
       const dao = new PreparerDAO();
       try {
         expect(await dao.deleteMultiple(['testItem'])).toThrowError();

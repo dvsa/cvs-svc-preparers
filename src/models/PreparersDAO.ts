@@ -1,6 +1,7 @@
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
 import { DynamoDBClient, ScanCommand, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb'
 
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
@@ -28,7 +29,7 @@ class PreparersDAO {
     preparerItems.forEach((preparerItem: any) => {
       params.RequestItems[this.tableName].push({
         PutRequest: {
-          Item: preparerItem
+          Item: marshall(preparerItem)
         }
       });
     });
@@ -43,7 +44,7 @@ class PreparersDAO {
       params.RequestItems[this.tableName].push({
         DeleteRequest: {
           Key: {
-            preparerId: key
+            preparerId: marshall(key)
           }
         }
       });

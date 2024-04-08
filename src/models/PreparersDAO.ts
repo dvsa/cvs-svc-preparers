@@ -1,33 +1,25 @@
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
+import { DynamoDBClient, ScanCommand, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb';
+
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
 */
-/* tslint:disable */
-let AWS: { DynamoDB: { DocumentClient: new (arg0: any) => DocumentClient } };
-if (process.env._X_AMZN_TRACE_ID) {
-  AWS = require('aws-xray-sdk').captureAWS(require('aws-sdk'));
-} else {
-  console.log('Serverless Offline detected; skipping AWS X-Ray setup');
-  AWS = require('aws-sdk');
-}
-/* tslint:enable */
 
 class PreparersDAO {
   private tableName: string;
-  private static docClient: DocumentClient;
+  private static docClient: DynamoDBClient;
 
   constructor() {
     const config: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
     if (!PreparersDAO.docClient) {
-      PreparersDAO.docClient = new AWS.DynamoDB.DocumentClient(config.params);
+      PreparersDAO.docClient = new DynamoDBClient(config.params);
     }
   }
 
   public getAll() {
-    return PreparersDAO.docClient.scan({ TableName: this.tableName }).promise();
+    return PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName }));
   }
 
   public createMultiple(preparerItems: any[]) {
@@ -41,7 +33,7 @@ class PreparersDAO {
       });
     });
 
-    return PreparersDAO.docClient.batchWrite(params).promise();
+    return PreparersDAO.docClient.send(new BatchWriteItemCommand(params));
   }
 
   public deleteMultiple(primaryKeysToBeDeleted: string[]) {
@@ -57,7 +49,7 @@ class PreparersDAO {
       });
     });
 
-    return PreparersDAO.docClient.batchWrite(params).promise();
+    return PreparersDAO.docClient.send(new BatchWriteItemCommand(params));
   }
 
   public generatePartialParams(): any {

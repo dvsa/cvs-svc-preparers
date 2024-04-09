@@ -1,11 +1,13 @@
 import { mockClient } from 'aws-sdk-client-mock';
 import HTTPError from '../../src/models/HTTPError';
 import PreparerDAO from '../../src/models/PreparersDAO';
-import { DynamoDBDocumentClient,
+import {
+  DynamoDBDocumentClient,
   ScanCommand,
   ScanCommandOutput,
   BatchWriteCommand,
-  BatchWriteCommandOutput } from '@aws-sdk/lib-dynamodb';
+  BatchWriteCommandOutput
+} from '@aws-sdk/lib-dynamodb';
 
 const client = mockClient(DynamoDBDocumentClient);
 
@@ -40,9 +42,7 @@ describe('Preparers DAO', () => {
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      client
-        .on(BatchWriteCommand)
-        .resolves('success' as unknown as BatchWriteCommandOutput);
+      client.on(BatchWriteCommand).resolves('success' as unknown as BatchWriteCommandOutput);
       const dao = new PreparerDAO();
       const output = await dao.createMultiple([{ item: 'testItem' }]);
       expect(output).toEqual('success');
@@ -65,9 +65,7 @@ describe('Preparers DAO', () => {
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      client
-        .on(BatchWriteCommand)
-        .resolves('success' as unknown as BatchWriteCommandOutput);
+      client.on(BatchWriteCommand).resolves('success' as unknown as BatchWriteCommandOutput);
       const dao = new PreparerDAO();
       const output = await dao.deleteMultiple(['testItem']);
       expect(output).toEqual('success');

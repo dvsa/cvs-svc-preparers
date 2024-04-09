@@ -2,7 +2,7 @@ import { DynamoDBDocumentClient, ScanCommand, BatchWriteCommand } from '@aws-sdk
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import AWSXRay from "aws-xray-sdk";
+import AWSXRay from 'aws-xray-sdk';
 
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
@@ -25,7 +25,7 @@ class PreparersDAO {
   }
 
   public async getAll() {
-    return (await PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName })));
+    return await PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName }));
   }
 
   public async createMultiple(preparerItems: any[]) {

@@ -17,7 +17,7 @@ class PreparersDAO {
     this.tableName = config.table;
     if (!PreparersDAO.docClient) {
       const client = new DynamoDBClient(config.params);
-      PreparersDAO.docClient = DynamoDBDocumentClient.from(client)
+      PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
     }
   }
 

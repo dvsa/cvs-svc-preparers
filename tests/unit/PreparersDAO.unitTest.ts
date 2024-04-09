@@ -43,25 +43,15 @@ describe('Preparers DAO', () => {
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      const stub = null;
       client
         .on(BatchWriteItemCommand)
         .resolves('success' as unknown as BatchWriteItemCommandOutput);
-      const expectedParams = [
-        {
-          PutRequest: {
-            Item: { item: 'testItem' }
-          }
-        }
-      ];
       const dao = new PreparerDAO();
       const output = await dao.createMultiple([{ item: 'testItem' }]);
       expect(output).toEqual('success');
-      // expect(getRequestItemsBodyFromStub(stub)).toStrictEqual(expectedParams);
     });
     it('returns error on failed query', async () => {
       const myError = new HTTPError(418, 'It broke');
-      const stub = null;
       client.on(BatchWriteItemCommand).rejects(myError as unknown as BatchWriteItemCommandOutput);
       const dao = new PreparerDAO();
       try {
@@ -78,7 +68,6 @@ describe('Preparers DAO', () => {
     });
 
     it('builds correct query and returns data on successful query', async () => {
-      const stub = null;
       client
         .on(BatchWriteItemCommand)
         .resolves('success' as unknown as BatchWriteItemCommandOutput);

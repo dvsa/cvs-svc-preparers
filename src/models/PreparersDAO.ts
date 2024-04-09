@@ -1,3 +1,4 @@
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
 import { DynamoDBClient, ScanCommand, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb';
@@ -9,13 +10,14 @@ https://github.com/aws/aws-xray-sdk-node/issues/14
 
 class PreparersDAO {
   private tableName: string;
-  private static docClient: DynamoDBClient;
+  private static docClient: DynamoDBDocumentClient;
 
   constructor() {
     const config: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
     if (!PreparersDAO.docClient) {
-      PreparersDAO.docClient = new DynamoDBClient(config.params);
+      const client = new DynamoDBClient(config.params);
+      PreparersDAO.docClient = DynamoDBDocumentClient.from(client)
     }
   }
 

@@ -8,8 +8,9 @@ import {
 import { mockClient } from 'aws-sdk-client-mock';
 import HTTPError from '../../src/models/HTTPError';
 import PreparerDAO from '../../src/models/PreparersDAO';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
-const client = mockClient(DynamoDBClient);
+const client = mockClient(DynamoDBDocumentClient);
 
 describe('Preparers DAO', () => {
   afterAll(() => {

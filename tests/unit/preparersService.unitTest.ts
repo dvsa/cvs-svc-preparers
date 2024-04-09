@@ -2,7 +2,6 @@
 import PreparersService from '../../src/services/PreparersService';
 import HTTPError from '../../src/models/HTTPError';
 import preparers from '../resources/preparers.json';
-import { marshall } from '@aws-sdk/util-dynamodb';
 
 describe('getPreparersList', () => {
   describe('when database is on', () => {
@@ -12,7 +11,7 @@ describe('getPreparersList', () => {
           return {
             getAll: () => {
               return Promise.resolve({
-                Items: preparers.map((item) => marshall(item)),
+                Items: preparers,
                 Count: 29,
                 ScannedCount: 29
               });
@@ -32,7 +31,7 @@ describe('getPreparersList', () => {
           return {
             getAll: () => {
               return Promise.resolve({
-                Items: preparers.map((item) => marshall(item)),
+                Items: preparers,
                 Count: 0,
                 ScannedCount: 0
               });
@@ -60,7 +59,7 @@ describe('getPreparersList', () => {
         return {
           getAll: () => {
             return Promise.reject({
-              Items: preparers.map((item) => marshall(item)),
+              Items: preparers,
               Count: 29,
               ScannedCount: 29
             });

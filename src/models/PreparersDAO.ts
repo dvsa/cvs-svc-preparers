@@ -1,8 +1,8 @@
-import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
-import { DynamoDBClient, ScanCommand, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb';
-import { marshall } from '@aws-sdk/util-dynamodb';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import AWSXRay from "aws-xray-sdk";
 
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
@@ -15,14 +15,17 @@ class PreparersDAO {
   constructor() {
     const config: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
-    if (!PreparersDAO.docClient) {
-      const client = new DynamoDBClient(config.params);
+    const client = new DynamoDBClient(config.params);
+
+    if (process.env._X_AMZN_TRACE_ID) {
+      PreparersDAO.docClient = AWSXRay.captureAWSv3Client(DynamoDBDocumentClient.from(client));
+    } else {
       PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
     }
   }
 
   public async getAll() {
-    return PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName }));
+    return (await PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName })));
   }
 
   public async createMultiple(preparerItems: any[]) {
@@ -31,12 +34,12 @@ class PreparersDAO {
     preparerItems.forEach((preparerItem: any) => {
       params.RequestItems[this.tableName].push({
         PutRequest: {
-          Item: marshall(preparerItem)
+          Item: preparerItem
         }
       });
     });
 
-    return PreparersDAO.docClient.send(new BatchWriteItemCommand(params));
+    return PreparersDAO.docClient.send(new BatchWriteCommand(params));
   }
 
   public async deleteMultiple(primaryKeysToBeDeleted: string[]) {
@@ -46,13 +49,13 @@ class PreparersDAO {
       params.RequestItems[this.tableName].push({
         DeleteRequest: {
           Key: {
-            preparerId: marshall(key)
+            preparerId: key
           }
         }
       });
     });
 
-    return PreparersDAO.docClient.send(new BatchWriteItemCommand(params));
+    return PreparersDAO.docClient.send(new BatchWriteCommand(params));
   }
 
   public generatePartialParams(): any {

@@ -1,6 +1,5 @@
 import HTTPError from '../models/HTTPError';
 import PreparersDAO from '../models/PreparersDAO';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 /**
  * Fetches the entire list of preparers from the database.
@@ -21,7 +20,7 @@ class PreparersService {
           throw new HTTPError(404, 'No resources match the search criteria.');
         }
 
-        return data.Items?.map((item) => unmarshall(item));
+        return data.Items;
       })
       .catch((error) => {
         if (!(error instanceof HTTPError)) {

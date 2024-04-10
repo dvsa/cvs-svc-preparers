@@ -20,6 +20,7 @@ class PreparersDAO {
     if (process.env._X_AMZN_TRACE_ID) {
       PreparersDAO.docClient = AWSXRay.captureAWSv3Client(DynamoDBDocumentClient.from(client));
     } else {
+      console.log('Serverless Offline detected; skipping AWS X-Ray setup');
       PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
     }
   }

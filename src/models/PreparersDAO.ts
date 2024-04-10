@@ -16,12 +16,13 @@ class PreparersDAO {
     const config: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
     const client = new DynamoDBClient(config.params);
-
-    if (process.env._X_AMZN_TRACE_ID) {
-      PreparersDAO.docClient = AWSXRay.captureAWSv3Client(DynamoDBDocumentClient.from(client));
-    } else {
-      console.log('Serverless Offline detected; skipping AWS X-Ray setup');
-      PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
+    if (!PreparersDAO.docClient) {
+      if (process.env._X_AMZN_TRACE_ID) {
+        PreparersDAO.docClient = AWSXRay.captureAWSv3Client(DynamoDBDocumentClient.from(client));
+      } else {
+        console.log('Serverless Offline detected; skipping AWS X-Ray setup');
+        PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
+      }
     }
   }
 

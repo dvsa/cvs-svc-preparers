@@ -4,6 +4,8 @@
 
 The preparers defects microservice contains some reference data to be used for CVS services and [mobile application](https://github.com/dvsa/cvs-app-mobile) for DVSA.
 
+The reference data is used in ... part of the application.
+
 ---
 
 ## Dependencies

@@ -1,36 +1,36 @@
+import { DynamoDBDocumentClient, ScanCommand, BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
 import { IDBConfig } from '.';
 import { Configuration } from '../utils/Configuration';
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import AWSXRay from 'aws-xray-sdk';
+
 /* workaround AWSXRay.captureAWS(...) call obscures types provided by the AWS sdk.
 https://github.com/aws/aws-xray-sdk-node/issues/14
 */
-/* tslint:disable */
-let AWS: { DynamoDB: { DocumentClient: new (arg0: any) => DocumentClient } };
-if (process.env._X_AMZN_TRACE_ID) {
-  AWS = require('aws-xray-sdk').captureAWS(require('aws-sdk'));
-} else {
-  console.log('Serverless Offline detected; skipping AWS X-Ray setup');
-  AWS = require('aws-sdk');
-}
-/* tslint:enable */
 
 class PreparersDAO {
   private tableName: string;
-  private static docClient: DocumentClient;
+  private static docClient: DynamoDBDocumentClient;
 
   constructor() {
     const config: IDBConfig = Configuration.getInstance().getDynamoDBConfig();
     this.tableName = config.table;
+    const client = new DynamoDBClient(config.params);
     if (!PreparersDAO.docClient) {
-      PreparersDAO.docClient = new AWS.DynamoDB.DocumentClient(config.params);
+      if (process.env._X_AMZN_TRACE_ID) {
+        PreparersDAO.docClient = AWSXRay.captureAWSv3Client(DynamoDBDocumentClient.from(client));
+      } else {
+        console.log('Serverless Offline detected; skipping AWS X-Ray setup');
+        PreparersDAO.docClient = DynamoDBDocumentClient.from(client);
+      }
     }
   }
 
-  public getAll() {
-    return PreparersDAO.docClient.scan({ TableName: this.tableName }).promise();
+  public async getAll() {
+    return await PreparersDAO.docClient.send(new ScanCommand({ TableName: this.tableName }));
   }
 
-  public createMultiple(preparerItems: any[]) {
+  public async createMultiple(preparerItems: any[]) {
     const params = this.generatePartialParams();
 
     preparerItems.forEach((preparerItem: any) => {
@@ -41,10 +41,10 @@ class PreparersDAO {
       });
     });
 
-    return PreparersDAO.docClient.batchWrite(params).promise();
+    return PreparersDAO.docClient.send(new BatchWriteCommand(params));
   }
 
-  public deleteMultiple(primaryKeysToBeDeleted: string[]) {
+  public async deleteMultiple(primaryKeysToBeDeleted: string[]) {
     const params = this.generatePartialParams();
 
     primaryKeysToBeDeleted.forEach((key) => {
@@ -57,7 +57,7 @@ class PreparersDAO {
       });
     });
 
-    return PreparersDAO.docClient.batchWrite(params).promise();
+    return PreparersDAO.docClient.send(new BatchWriteCommand(params));
   }
 
   public generatePartialParams(): any {
